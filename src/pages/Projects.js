@@ -28,15 +28,17 @@ export default function Projects() {
   const stringUserId = localStorage.getItem("userId");
   const currentUserId = parseInt(stringUserId);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/project")
+    fetch(`${API_BASE_URL}/api/project`)
       .then((res) => res.json())
       .then(async (projects) => {
         const updatedProjects = await Promise.all(
           projects.map(async (project) => {
             // Fetch Product Owner
             const productOwnerRes = await fetch(
-              `http://localhost:8080/api/project/${project.id}/productOwner`
+              `${API_BASE_URL}/api/project/${project.id}/productOwner`
             );
             const productOwner = productOwnerRes.ok
               ? await productOwnerRes.json()
@@ -44,7 +46,7 @@ export default function Projects() {
 
             // Fetch Scrum Master
             const scrumMasterRes = await fetch(
-              `http://localhost:8080/api/project/${project.id}/scrumMaster`
+              `${API_BASE_URL}/api/project/${project.id}/scrumMaster`
             );
             const scrumMaster = scrumMasterRes.ok
               ? await scrumMasterRes.json()
@@ -70,7 +72,7 @@ export default function Projects() {
       })
       .catch((error) => console.error("Error fetching projects:", error));
 
-    fetch("http://localhost:8080/api/auth")
+    fetch(`${API_BASE_URL}/api/auth`)
       .then((res) => res.json())
       .then(setUsers)
       .catch((error) => console.error("Error fetching users:", error));
@@ -80,7 +82,7 @@ export default function Projects() {
     event.stopPropagation();
     try {
       const response = await fetch(
-        `http://localhost:8080/api/project/changeState/${id}/${currentUserId}?newState=COMPLETED`,
+        `${API_BASE_URL}/api/project/changeState/${id}/${currentUserId}?newState=COMPLETED`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -110,7 +112,7 @@ export default function Projects() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/project/create/${currentUserId}`,
+        `${API_BASE_URL}/api/project/create/${currentUserId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -122,7 +124,7 @@ export default function Projects() {
         const createdProject = await response.json();
         setProjects([...projects, createdProject]);
         const scrumMasterResponse = await fetch(
-          `http://localhost:8080/api/project/${createdProject.id}/setScrumMaster/${scrumMasterId}/${currentUserId}`,
+          `${API_BASE_URL}/api/project/${createdProject.id}/setScrumMaster/${scrumMasterId}/${currentUserId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -151,7 +153,7 @@ export default function Projects() {
     event.stopPropagation();
     try {
       const response = await fetch(
-        `http://localhost:8080/api/project/delete/${id}/${currentUserId}`,
+        `${API_BASE_URL}/api/project/delete/${id}/${currentUserId}`,
         {
           method: "DELETE",
         }
@@ -174,7 +176,7 @@ export default function Projects() {
     try {
       // Fetch Product Owner
       const resPO = await fetch(
-        `http://localhost:8080/api/project/${project.id}/productOwner`
+        `${API_BASE_URL}/api/project/${project.id}/productOwner`
       );
       if (resPO.ok) {
         const po = await resPO.json();
@@ -183,7 +185,7 @@ export default function Projects() {
 
       // Fetch Scrum Master
       const resSM = await fetch(
-        `http://localhost:8080/api/project/${project.id}/scrumMaster`
+        `${API_BASE_URL}/api/project/${project.id}/scrumMaster`
       );
       if (resSM.ok) {
         const sm = await resSM.json();
@@ -192,7 +194,7 @@ export default function Projects() {
 
       // Fetch Team Members
       const resTM = await fetch(
-        `http://localhost:8080/api/project/${project.id}/teamMembers`
+        `${API_BASE_URL}/api/project/${project.id}/teamMembers`
       );
       if (resTM.ok) {
         const members = await resTM.json();
@@ -219,7 +221,7 @@ export default function Projects() {
     // Fetch current team members
     try {
       const res = await fetch(
-        `http://localhost:8080/api/project/${project.id}/teamMembers`
+        `${API_BASE_URL}/api/project/${project.id}/teamMembers`
       );
       if (res.ok) {
         const members = await res.json();
@@ -241,7 +243,7 @@ export default function Projects() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/project/${editedProject.id}/addMember/${selectedNewMember}/${currentUserId}`,
+        `${API_BASE_URL}/api/project/${editedProject.id}/addMember/${selectedNewMember}/${currentUserId}`,
         { method: "POST" }
       );
 
@@ -265,7 +267,7 @@ export default function Projects() {
   const handleRemoveTeamMember = async (memberId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/project/${editedProject.id}/removeMember/${memberId}/${currentUserId}`,
+        `${API_BASE_URL}/api/project/${editedProject.id}/removeMember/${memberId}/${currentUserId}`,
         { method: "DELETE" }
       );
 
@@ -282,7 +284,7 @@ export default function Projects() {
   const handleSaveChanges = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/project/update/${editedProject.id}/${currentUserId}`,
+        `${API_BASE_URL}/api/project/update/${editedProject.id}/${currentUserId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

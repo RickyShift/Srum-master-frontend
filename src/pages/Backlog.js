@@ -35,6 +35,8 @@ export default function Backlog() {
     setPopupVisible(true);
   };
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleAssignUserStories = async () => {
     if (!selectedUserStoryId || selectedSprints.length === 0) return;
 
@@ -42,12 +44,12 @@ export default function Backlog() {
       await Promise.all(
         selectedSprints.map((sprintId) =>
           fetch(
-            `http://localhost:8080/api/sprint/${sprintId}/addUserStory/${selectedUserStoryId}`,
+            `${API_BASE_URL}/api/sprint/${sprintId}/addUserStory/${selectedUserStoryId}`,
             { method: "PUT", headers: { "Content-Type": "application/json" } }
           )
         )
       );
-      const userStoryRes = await fetch("http://localhost:8080/api/userStory");
+      const userStoryRes = await fetch(`${API_BASE_URL}/api/userStory`);
       const updatedUserStories = await userStoryRes.json();
 
       const userStoriesWithDetails = await Promise.all(
@@ -56,10 +58,10 @@ export default function Backlog() {
             try {
               const [projectRes, sprintRes] = await Promise.all([
                 fetch(
-                  `http://localhost:8080/api/userStory/project/${userStory.id}`
+                  `${API_BASE_URL}/api/userStory/project/${userStory.id}`
                 ),
                 fetch(
-                  `http://localhost:8080/api/userStory/sprint/${userStory.id}`
+                  `${API_BASE_URL}/api/userStory/sprint/${userStory.id}`
                 ),
               ]);
 
@@ -102,7 +104,7 @@ export default function Backlog() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/project")
+    fetch(`${API_BASE_URL}/api/project`)
       .then((res) => res.json())
       .then((result) => setProjects(result))
       .catch((error) => console.error("Error fetching projects:", error));
@@ -111,7 +113,7 @@ export default function Backlog() {
   useEffect(() => {
     const fetchSprints = async () => {
       try {
-        const sprintRes = await fetch("http://localhost:8080/api/sprint");
+        const sprintRes = await fetch(`${API_BASE_URL}/api/sprint`);
         const sprints = await sprintRes.json();
 
         const sprintsWithProjects = await Promise.all(
@@ -119,7 +121,7 @@ export default function Backlog() {
             if (sprint?.id) {
               try {
                 const projectRes = await fetch(
-                  `http://localhost:8080/api/sprint/project/${sprint.id}`
+                  `${API_BASE_URL}/api/sprint/project/${sprint.id}`
                 );
                 const project = await projectRes.json().catch(() => null);
                 return { ...sprint, project };
@@ -145,17 +147,17 @@ export default function Backlog() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/userStory") // Fetch all user stories first
+    fetch(`${API_BASE_URL}/api/userStory`) // Fetch all user stories first
       .then((res) => res.json())
       .then((stories) => {
         // Fetch both project and sprint details
         const fetchDetails = stories.map((story) => {
           if (story.id !== undefined && story.id !== null) {
             return Promise.all([
-              fetch(`http://localhost:8080/api/userStory/project/${story.id}`)
+              fetch(`${API_BASE_URL}/api/userStory/project/${story.id}`)
                 .then((res) => res.json())
                 .catch(() => null),
-              fetch(`http://localhost:8080/api/userStory/sprint/${story.id}`)
+              fetch(`${API_BASE_URL}/api/userStory/sprint/${story.id}`)
                 .then((res) => res.json())
                 .catch(() => null),
             ])
@@ -206,7 +208,7 @@ export default function Backlog() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/userStory/create/${userId}`,
+        `${API_BASE_URL}/api/userStory/create/${userId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -217,7 +219,7 @@ export default function Backlog() {
       if (response.ok) {
         const createdUserStory = await response.json();
         const projectResponse = await fetch(
-          `http://localhost:8080/api/userStory/project/${createdUserStory.id}`
+          `${API_BASE_URL}/api/userStory/project/${createdUserStory.id}`
         );
         const project = await projectResponse.json();
         const updatedUserStory = { ...createdUserStory, project };
@@ -241,7 +243,7 @@ export default function Backlog() {
     event.stopPropagation();
     try {
       const response = await fetch(
-        `http://localhost:8080/api/userStory/delete/${id}`,
+        `${API_BASE_URL}/api/userStory/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -264,7 +266,7 @@ export default function Backlog() {
   const handleSaveChanges = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/userStory/update/${editedUserStory.id}`,
+        `${API_BASE_URL}/api/userStory/update/${editedUserStory.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

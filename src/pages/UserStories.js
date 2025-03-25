@@ -21,9 +21,11 @@ export default function UserStories() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [realHours, setRealHours] = useState(null);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const getAssignedMembers = async (userStoryId) => {
     const response = await fetch(
-      `http://localhost:8080/api/userStory/users/${userStoryId}`
+      `${API_BASE_URL}/api/userStory/users/${userStoryId}`
     );
     if (response.ok) {
       const assignedMembers = await response.json();
@@ -36,7 +38,7 @@ export default function UserStories() {
 
   const getProjectTeamMembers = async (projectId) => {
     const response = await fetch(
-      `http://localhost:8080/api/project/${projectId}/teamMembers`
+      `${API_BASE_URL}/api/project/${projectId}/teamMembers`
     );
     if (response.ok) {
       const teamMembers = await response.json();
@@ -49,7 +51,7 @@ export default function UserStories() {
 
   const assignUserToUserStory = async (userStoryId, userId) => {
     const response = await fetch(
-      `http://localhost:8080/api/userStory/${userStoryId}/assignUser/${userId}`,
+      `${API_BASE_URL}/api/userStory/${userStoryId}/assignUser/${userId}`,
       { method: "PUT" }
     );
     if (response.ok) {
@@ -63,7 +65,7 @@ export default function UserStories() {
 
   const removeUserFromUserStory = async (userStoryId, userId) => {
     const response = await fetch(
-      `http://localhost:8080/api/userStory/${userStoryId}/removeUser/${userId}`,
+      `${API_BASE_URL}/api/userStory/${userStoryId}/removeUser/${userId}`,
       { method: "PUT" }
     );
     if (response.ok) {
@@ -99,7 +101,7 @@ export default function UserStories() {
   const handleSaveChanges = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/userStory/update/${editedTask.id}`,
+        `${API_BASE_URL}/api/userStory/update/${editedTask.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -120,7 +122,7 @@ export default function UserStories() {
   const handleDropUserStory = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/userStory/delete/${id}`,
+        `${API_BASE_URL}/api/userStory/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -134,18 +136,18 @@ export default function UserStories() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/project")
+    fetch(`${API_BASE_URL}/api/project`)
       .then((res) => res.json())
       .then((result) => setProjects(result))
       .catch((error) => console.error("Error fetching projects:", error));
-    fetch("http://localhost:8080/api/sprint")
+    fetch(`${API_BASE_URL}/api/sprint`)
       .then((res) => res.json())
       .then((result) => setSprints(result))
       .catch((error) => console.error("Error fetching sprints:", error));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/userStory")
+    fetch(`${API_BASE_URL}/api/userStory`)
       .then((res) => res.json())
       .then((userStories) => {
         // Fetch projects and sprints for each user story
@@ -153,7 +155,7 @@ export default function UserStories() {
           if (userStory.id !== undefined && userStory.id !== null) {
             return Promise.all([
               fetch(
-                `http://localhost:8080/api/userStory/project/${userStory.id}`
+                `${API_BASE_URL}/api/userStory/project/${userStory.id}`
               )
                 .then((res) => res.json())
                 .catch((error) => {
@@ -165,7 +167,7 @@ export default function UserStories() {
                 }),
 
               fetch(
-                `http://localhost:8080/api/userStory/sprint/${userStory.id}`
+                `${API_BASE_URL}/api/userStory/sprint/${userStory.id}`
               )
                 .then((res) => res.json())
                 .catch((error) => {
@@ -212,7 +214,7 @@ export default function UserStories() {
         setRealHours("");
         taskToUpdate.realHours = realHours;
 
-        await fetch(`http://localhost:8080/api/userStory/update/${taskId}`, {
+        await fetch(`${API_BASE_URL}/api/userStory/update/${taskId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(taskToUpdate),
@@ -220,7 +222,7 @@ export default function UserStories() {
 
         // Update the state in the backend after the task is updated
         await fetch(
-          `http://localhost:8080/api/userStory/changeState/${taskId}?newState=${newState}`,
+          `${API_BASE_URL}/api/userStory/changeState/${taskId}?newState=${newState}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -250,7 +252,7 @@ export default function UserStories() {
     try {
       // First, update the task in the backend
       await fetch(
-        `http://localhost:8080/api/userStory/update/${updatedTask.id}`,
+        `${API_BASE_URL}/api/userStory/update/${updatedTask.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -260,7 +262,7 @@ export default function UserStories() {
 
       // Then, change the state of the task
       await fetch(
-        `http://localhost:8080/api/userStory/changeState/${updatedTask.id}?newState=${newState}`,
+        `${API_BASE_URL}/api/userStory/changeState/${updatedTask.id}?newState=${newState}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -270,14 +272,14 @@ export default function UserStories() {
 
       // After updating the task, fetch the updated user stories
       const userStoriesResponse = await fetch(
-        "http://localhost:8080/api/userStory"
+        `${API_BASE_URL}/api/userStory`
       );
       const userStories = await userStoriesResponse.json();
 
       const fetchDetails = userStories.map((userStory) => {
         if (userStory.id) {
           return Promise.all([
-            fetch(`http://localhost:8080/api/userStory/project/${userStory.id}`)
+            fetch(`${API_BASE_URL}/api/userStory/project/${userStory.id}`)
               .then((res) => res.json())
               .catch((error) => {
                 console.error(
@@ -287,7 +289,7 @@ export default function UserStories() {
                 return null;
               }),
 
-            fetch(`http://localhost:8080/api/userStory/sprint/${userStory.id}`)
+            fetch(`${API_BASE_URL}/api/userStory/sprint/${userStory.id}`)
               .then((res) => res.json())
               .catch((error) => {
                 console.error(

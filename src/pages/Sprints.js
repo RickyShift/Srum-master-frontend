@@ -23,10 +23,12 @@ export default function Sprints() {
     return date.toLocaleDateString();
   };
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     (async () => {
       try {
-        const sprintRes = await fetch("http://localhost:8080/api/sprint");
+        const sprintRes = await fetch(`${API_BASE_URL}/api/sprint`);
         const sprints = await sprintRes.json();
 
         const sprintsWithProjects = await Promise.all(
@@ -34,7 +36,7 @@ export default function Sprints() {
             if (sprint?.id) {
               try {
                 const projectRes = await fetch(
-                  `http://localhost:8080/api/sprint/project/${sprint.id}`
+                  `${API_BASE_URL}/api/sprint/project/${sprint.id}`
                 );
                 const project = await projectRes.json().catch(() => null);
                 return { ...sprint, project };
@@ -56,7 +58,7 @@ export default function Sprints() {
       }
 
       try {
-        const projectRes = await fetch("http://localhost:8080/api/project");
+        const projectRes = await fetch(`${API_BASE_URL}/api/project`);
         const projectsData = await projectRes.json();
         setProjects(projectsData || []);
       } catch (error) {
@@ -64,7 +66,7 @@ export default function Sprints() {
       }
 
       try {
-        const userStoryRes = await fetch("http://localhost:8080/api/userStory");
+        const userStoryRes = await fetch(`${API_BASE_URL}/api/userStory`);
         const userStories = await userStoryRes.json();
 
         const userStoriesWithDetails = await Promise.all(
@@ -73,10 +75,10 @@ export default function Sprints() {
               try {
                 const [projectRes, sprintRes] = await Promise.all([
                   fetch(
-                    `http://localhost:8080/api/userStory/project/${userStory.id}`
+                    `${API_BASE_URL}/api/userStory/project/${userStory.id}`
                   ),
                   fetch(
-                    `http://localhost:8080/api/userStory/sprint/${userStory.id}`
+                    `${API_BASE_URL}/api/userStory/sprint/${userStory.id}`
                   ),
                 ]);
 
@@ -119,7 +121,7 @@ export default function Sprints() {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/sprint/create", {
+      const response = await fetch(`${API_BASE_URL}/api/sprint/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(sprintData),
@@ -128,7 +130,7 @@ export default function Sprints() {
       if (response.ok) {
         const createdSprint = await response.json();
         const projectResponse = await fetch(
-          `http://localhost:8080/api/sprint/project/${createdSprint.id}`
+          `${API_BASE_URL}/api/sprint/project/${createdSprint.id}`
         );
         const project = await projectResponse.json();
         const updatedSprint = { ...createdSprint, project };
@@ -149,7 +151,7 @@ export default function Sprints() {
     event.stopPropagation();
     try {
       const response = await fetch(
-        `http://localhost:8080/api/sprint/changeState/${sprintId}?newState=${newState}`,
+        `${API_BASE_URL}/api/sprint/changeState/${sprintId}?newState=${newState}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -172,7 +174,7 @@ export default function Sprints() {
   const deleteSprint = async (event, sprintId) => {
     event.stopPropagation();
     try {
-      await fetch(`http://localhost:8080/api/sprint/delete/${sprintId}`, {
+      await fetch(`${API_BASE_URL}/api/sprint/delete/${sprintId}`, {
         method: "DELETE",
       });
       setSprints(sprints.filter((sprint) => sprint.id !== sprintId));
@@ -191,7 +193,7 @@ export default function Sprints() {
   const handleSaveChanges = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/sprint/update/${editedSprint.id}`,
+        `${API_BASE_URL}/api/sprint/update/${editedSprint.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
