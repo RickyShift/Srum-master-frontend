@@ -1,0 +1,124 @@
+.app {
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .dashboard {
+    padding: 20px; /* Default for 1326x520 */
+  }
+  
+  @media (min-width: 1440px) {
+    .dashboard {
+      padding: 30px; /* Adjusted for 1440x900 */
+    }
+  }
+  
+  .dashboard-first-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .dashboard-create-project {
+    color: white;
+    padding: 6px 12px; /* Default for 1326x520 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4c66ff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px black;
+    margin-bottom: 5px;
+  }
+
+  .dashboard-create-project:hover{
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.8);
+  }
+  
+  @media (min-width: 1440px) {
+    .dashboard-create-project {
+      padding: 8px 15px; /* Adjusted for 1440x900 */
+    }
+  }
+  
+  .dashboard-title {
+    font-size: 18px; /* Default for 1326x520 */
+    font-weight: bold;
+    text-align: center;
+    cursor: default;
+  }
+  
+  @media (min-width: 1400px) {
+    .dashboard-title {
+      font-size: 20px; /* Adjusted for 1440x900 */
+    }
+  }
+  
+  .progress-section {
+    background: rgb(243, 246, 248);
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.3);
+    padding: 15px; /* Default for 1326x520 */
+    margin: 20px 0; /* Default for 1326x520 */
+    border-radius: 10px;
+  }
+  
+  .progress-section h2 {
+    font-size: 18px; /* Default for 1326x520 */
+    font-weight: bold;
+    padding-bottom: 10px;
+    cursor: default;
+  }
+  
+  @media (min-width: 1440px) {
+    .progress-section h2 {
+      font-size: 20px; /* Adjusted for 1440x900 */
+    }
+  }
+  
+  .history-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Default for 1326x520 */
+    cursor: default;
+  }
+  
+  @media (min-width: 1440px) {
+    .history-section {
+      gap: 20px; /* Adjusted for 1440x900 */
+    }
+  }
+  
+  .img1 {
+    margin-top: 8px; /* Default for 1326x520 */
+    width: 60%;
+  }
+  
+  @media (min-width: 1440px) {
+    .img1 {
+      margin-top: 10px; /* Adjusted for 1440x900 */
+    }
+  }
+  
+  .status-overview,
+  .activity-feed {
+    background-color: #dce6f1;
+    padding: 15px; /* Default for 1326x520 */
+    border-radius: 10px;
+    flex: 1;
+  }
+  
+  @media (min-width: 1440px) {
+    .status-overview,
+    .activity-feed {
+      padding: 20px; /* Adjusted for 1440x900 */
+    }
+  }
+  
+  .no-activity {
+    text-align: center;
+    color: #000000;
+  }
+  

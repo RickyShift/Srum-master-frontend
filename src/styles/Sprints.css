@@ -1,0 +1,289 @@
+.app {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.sprint-main-content {
+  width: 90%; /* Default for 1326x520 */
+  margin: 0 auto;
+}
+
+@media (min-width: 1440px) {
+  .sprint-main-content {
+  width: 85%; /* Adjusted for 1440x900 */
+  }
+}
+
+.sprint-title {
+  text-align: center;
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 15px; /* Default for 1326x520 */
+  margin-top: 8px; /* Default for 1326x520 */
+  cursor: default;
+}
+
+@media (min-width: 1440px) {
+  .sprint-title {
+    font-size: 22px;
+    margin-bottom: 20px; /* Adjusted for 1440x900 */
+    margin-top: 10px; /* Adjusted for 1440x900 */
+  }
+}
+
+
+.new-sprint-container {
+  background: #f4f4f4;
+    padding: 10px; /* Default for 1326x520 */
+    border-radius: 8px;
+    margin-bottom: 10px; /* Default for 1326x520 */
+    cursor: default;
+}
+
+@media (min-width: 1440px) {
+  .new-sprint-container {
+    padding: 20px; /* Adjusted for 1440x900 */
+      margin-bottom: 20px; /* Adjusted for 1440x900 */
+  }
+}
+
+.new-sprint-title {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+@media (min-width: 1440px) {
+  .new-sprint-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.new-sprint-form-group {
+  display: flex;
+  gap: 8px;
+}
+
+@media (min-width: 1440px) {
+  .new-sprint-form-group {
+    gap: 10px;
+  }
+}
+
+.new-sprint-input-field {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+@media (min-width: 1440px) {
+  .new-sprint-input-field {
+    padding: 10px;
+  }
+}
+
+.new-sprint-create-button {
+  background-color: #4c66ff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px black;
+}
+
+@media (min-width: 1440px) {
+  .new-sprint-create-button {
+    padding: 10px 15px;
+  }
+}
+
+.new-sprint-create-button:hover {
+  background-color: #003366;
+}
+
+/* Filter Styles */
+.sprint-project-filter{
+  font-weight: 700;
+}
+
+.sprint-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px
+}
+
+.sprint-filter-dropdown {
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.sprint-section-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #003366;
+  padding-top: 15px; /* Adjusted for 1440x900 */
+  margin-bottom: 10px;
+}
+
+.sprint-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 310px;
+  background-color: #f4f4f4;
+  padding: 10px 10px;
+  border-radius: 5px;
+}
+
+.sprint-card {
+  background: white;
+  padding: 15px;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  max-height: 300px;
+}
+
+.sprint-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.sprint-status {
+  color: #4c66ff;
+}
+
+.sprint-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.sprint-actions button {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.sprint-tasks{
+  overflow-y: scroll;
+  max-height: 100px;
+}
+
+.sprint-task-item {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sprint-dropdown-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Multi-Select Dropdown */
+.sprint-multi-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #4c67ff39;
+  font-size: 14px;
+  cursor: pointer;
+  max-height: 60px;
+  overflow-y: scroll;
+}
+
+/* Save Button */
+.save-sprint-btn {
+  display: block;
+  margin-top: 10px;
+  background-color: #4c66ff;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  justify-content: baseline;
+}
+
+.save-sprint-btn:hover {
+  background-color: #003366;
+}
+
+/* Sprint Edit Popup */
+.sprint-edit-popup {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+/* Sprint Popup Input */
+.sprint-popup-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Sprint Save Button */
+.sprint-save-btn {
+  background-color: #003366;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.sprint-save-btn:hover {
+  background-color: #4c66ff;
+}
+
+/* Sprint Save Button Container */
+.sprint-save-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsive Styles */
+@media (min-width: 1440px) {
+  .sprint-multi-select {
+    padding: 10px;
+  }
+
+  .save-sprint-btn {
+    padding: 8px 12px;
+  }
+
+  .sprint-popup-input {
+    padding: 10px;
+  }
+}

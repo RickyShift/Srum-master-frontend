@@ -1,0 +1,153 @@
+.app {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.board-main-content {
+  padding: 0 30px;
+}
+
+.board-title{
+  text-align: center;
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 15px; /* Default for 1326x520 */
+    margin-top: 10px; /* Default for 1326x520 */
+    cursor: default;
+}
+
+.board-controls {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.board-controls input, .board-controls select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.board-task-board {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  h3{
+    margin-bottom: 20px;
+    margin-top: 5px;
+    font-size: 18px;
+  }
+}
+
+.board-task-column {
+  flex: 1;
+  background: rgb(234, 231, 231);
+  box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.5);
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 300px;
+  max-height: 390px;
+}
+
+@media (min-width: 1440px) {
+  .board-task-column {
+    max-height: 840px;
+    min-height: 400px;
+  }
+}
+
+.board-task-container{
+  overflow: auto;
+  overflow-x: hidden;
+  max-height: 290px;
+}
+
+@media (min-width: 1440px) {
+  .board-task-container {
+    max-height: 750px;
+  }
+}
+
+.board-task-card {
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out;
+  cursor: grab;
+  max-width: 400px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+@media (min-width: 1440px) {
+  .board-task-card {
+    max-width: 600px;
+  }
+}
+
+.board-task-card p {
+  margin: 5px 0;
+}
+
+.board-task-card:hover {
+  background-color: #7de9ff25;
+  transition: transform 0.2s ease-in-out;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: end;
+  margin-right: 5px;
+}
+
+/* Edit and Drop buttons */
+.task-edit-button,
+.task-drop-button {
+  color: black;
+  border: 1px solid black;
+  padding: 6px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s ease-in-out;
+}
+
+.task-edit-button:hover {
+  background-color: #4c67ff70;
+}
+
+.task-drop-button:hover {
+  background-color: #4c67ff70;
+}
+
+.task-edit-popup-1{
+  margin-bottom: 15px;
+}
+
+.task-popup-input{
+  padding: 2px;
+  display: flex;
+  margin-bottom: 8px;
+  width: 100%;
+  }
+  
+  .task-save-btn{
+  margin-top: 15px;
+  font-weight: 700;
+  }
+  
+  .task-save-btn-container :hover{
+    border-radius: 3px;
+    background-color: #065db35b;
+    cursor: pointer;
+  
+  }

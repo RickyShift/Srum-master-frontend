@@ -1,0 +1,12 @@
+.burndown-chart {
+    background-color: #dce6f1;
+    padding: 30px;
+    text-align: center;
+    width: 42%;
+  }
+  
+  @media (min-width: 1440px) {
+    .burndown-chart {
+      width: 48%;
+    }
+  }
