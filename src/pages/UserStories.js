@@ -21,11 +21,9 @@ export default function UserStories() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [realHours, setRealHours] = useState(null);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
   const getAssignedMembers = async (userStoryId) => {
     const response = await fetch(
-      `${API_BASE_URL}/api/userStory/users/${userStoryId}`
+      `https://scrum-master-backend.onrender.com/api/userStory/users/${userStoryId}`
     );
     if (response.ok) {
       const assignedMembers = await response.json();
@@ -38,7 +36,7 @@ export default function UserStories() {
 
   const getProjectTeamMembers = async (projectId) => {
     const response = await fetch(
-      `${API_BASE_URL}/api/project/${projectId}/teamMembers`
+      `https://scrum-master-backend.onrender.com/api/project/${projectId}/teamMembers`
     );
     if (response.ok) {
       const teamMembers = await response.json();
@@ -51,7 +49,7 @@ export default function UserStories() {
 
   const assignUserToUserStory = async (userStoryId, userId) => {
     const response = await fetch(
-      `${API_BASE_URL}/api/userStory/${userStoryId}/assignUser/${userId}`,
+      `https://scrum-master-backend.onrender.com/api/userStory/${userStoryId}/assignUser/${userId}`,
       { method: "PUT" }
     );
     if (response.ok) {
@@ -65,7 +63,7 @@ export default function UserStories() {
 
   const removeUserFromUserStory = async (userStoryId, userId) => {
     const response = await fetch(
-      `${API_BASE_URL}/api/userStory/${userStoryId}/removeUser/${userId}`,
+      `https://scrum-master-backend.onrender.com/api/userStory/${userStoryId}/removeUser/${userId}`,
       { method: "PUT" }
     );
     if (response.ok) {
@@ -101,7 +99,7 @@ export default function UserStories() {
   const handleSaveChanges = async () => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/userStory/update/${editedTask.id}`,
+        `https://scrum-master-backend.onrender.com/api/userStory/update/${editedTask.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -122,7 +120,7 @@ export default function UserStories() {
   const handleDropUserStory = async (id) => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/userStory/delete/${id}`,
+        `https://scrum-master-backend.onrender.com/api/userStory/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -136,18 +134,18 @@ export default function UserStories() {
   };
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/project`)
+    fetch(`https://scrum-master-backend.onrender.com/api/project`)
       .then((res) => res.json())
       .then((result) => setProjects(result))
       .catch((error) => console.error("Error fetching projects:", error));
-    fetch(`${API_BASE_URL}/api/sprint`)
+    fetch(`https://scrum-master-backend.onrender.com/api/sprint`)
       .then((res) => res.json())
       .then((result) => setSprints(result))
       .catch((error) => console.error("Error fetching sprints:", error));
   }, []);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/userStory`)
+    fetch(`https://scrum-master-backend.onrender.com/api/userStory`)
       .then((res) => res.json())
       .then((userStories) => {
         // Fetch projects and sprints for each user story
@@ -155,7 +153,7 @@ export default function UserStories() {
           if (userStory.id !== undefined && userStory.id !== null) {
             return Promise.all([
               fetch(
-                `${API_BASE_URL}/api/userStory/project/${userStory.id}`
+                `https://scrum-master-backend.onrender.com/api/userStory/project/${userStory.id}`
               )
                 .then((res) => res.json())
                 .catch((error) => {
@@ -167,7 +165,7 @@ export default function UserStories() {
                 }),
 
               fetch(
-                `${API_BASE_URL}/api/userStory/sprint/${userStory.id}`
+                `https://scrum-master-backend.onrender.com/api/userStory/sprint/${userStory.id}`
               )
                 .then((res) => res.json())
                 .catch((error) => {
@@ -214,7 +212,7 @@ export default function UserStories() {
         setRealHours("");
         taskToUpdate.realHours = realHours;
 
-        await fetch(`${API_BASE_URL}/api/userStory/update/${taskId}`, {
+        await fetch(`https://scrum-master-backend.onrender.com/api/userStory/update/${taskId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(taskToUpdate),
@@ -222,7 +220,7 @@ export default function UserStories() {
 
         // Update the state in the backend after the task is updated
         await fetch(
-          `${API_BASE_URL}/api/userStory/changeState/${taskId}?newState=${newState}`,
+          `https://scrum-master-backend.onrender.com/api/userStory/changeState/${taskId}?newState=${newState}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -252,7 +250,7 @@ export default function UserStories() {
     try {
       // First, update the task in the backend
       await fetch(
-        `${API_BASE_URL}/api/userStory/update/${updatedTask.id}`,
+        `https://scrum-master-backend.onrender.com/api/userStory/update/${updatedTask.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -262,7 +260,7 @@ export default function UserStories() {
 
       // Then, change the state of the task
       await fetch(
-        `${API_BASE_URL}/api/userStory/changeState/${updatedTask.id}?newState=${newState}`,
+        `https://scrum-master-backend.onrender.com/api/userStory/changeState/${updatedTask.id}?newState=${newState}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -272,14 +270,14 @@ export default function UserStories() {
 
       // After updating the task, fetch the updated user stories
       const userStoriesResponse = await fetch(
-        `${API_BASE_URL}/api/userStory`
+        `https://scrum-master-backend.onrender.com/api/userStory`
       );
       const userStories = await userStoriesResponse.json();
 
       const fetchDetails = userStories.map((userStory) => {
         if (userStory.id) {
           return Promise.all([
-            fetch(`${API_BASE_URL}/api/userStory/project/${userStory.id}`)
+            fetch(`https://scrum-master-backend.onrender.com/api/userStory/project/${userStory.id}`)
               .then((res) => res.json())
               .catch((error) => {
                 console.error(
@@ -289,7 +287,7 @@ export default function UserStories() {
                 return null;
               }),
 
-            fetch(`${API_BASE_URL}/api/userStory/sprint/${userStory.id}`)
+            fetch(`https://scrum-master-backend.onrender.com/api/userStory/sprint/${userStory.id}`)
               .then((res) => res.json())
               .catch((error) => {
                 console.error(

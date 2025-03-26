@@ -28,17 +28,15 @@ export default function Projects() {
   const stringUserId = localStorage.getItem("userId");
   const currentUserId = parseInt(stringUserId);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/project`)
+    fetch(`https://scrum-master-backend.onrender.com/api/project`)
       .then((res) => res.json())
       .then(async (projects) => {
         const updatedProjects = await Promise.all(
           projects.map(async (project) => {
             // Fetch Product Owner
             const productOwnerRes = await fetch(
-              `${API_BASE_URL}/api/project/${project.id}/productOwner`
+              `https://scrum-master-backend.onrender.com/api/project/${project.id}/productOwner`
             );
             const productOwner = productOwnerRes.ok
               ? await productOwnerRes.json()
@@ -46,7 +44,7 @@ export default function Projects() {
 
             // Fetch Scrum Master
             const scrumMasterRes = await fetch(
-              `${API_BASE_URL}/api/project/${project.id}/scrumMaster`
+              `https://scrum-master-backend.onrender.com/api/project/${project.id}/scrumMaster`
             );
             const scrumMaster = scrumMasterRes.ok
               ? await scrumMasterRes.json()
@@ -72,7 +70,7 @@ export default function Projects() {
       })
       .catch((error) => console.error("Error fetching projects:", error));
 
-    fetch(`${API_BASE_URL}/api/auth`)
+    fetch(`https://scrum-master-backend.onrender.com/api/auth`)
       .then((res) => res.json())
       .then(setUsers)
       .catch((error) => console.error("Error fetching users:", error));
@@ -82,7 +80,7 @@ export default function Projects() {
     event.stopPropagation();
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/project/changeState/${id}/${currentUserId}?newState=COMPLETED`,
+        `https://scrum-master-backend.onrender.com/api/project/changeState/${id}/${currentUserId}?newState=COMPLETED`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -112,7 +110,7 @@ export default function Projects() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/project/create/${currentUserId}`,
+        `https://scrum-master-backend.onrender.com/api/project/create/${currentUserId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -124,7 +122,7 @@ export default function Projects() {
         const createdProject = await response.json();
         setProjects([...projects, createdProject]);
         const scrumMasterResponse = await fetch(
-          `${API_BASE_URL}/api/project/${createdProject.id}/setScrumMaster/${scrumMasterId}/${currentUserId}`,
+          `https://scrum-master-backend.onrender.com/api/project/${createdProject.id}/setScrumMaster/${scrumMasterId}/${currentUserId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -153,7 +151,7 @@ export default function Projects() {
     event.stopPropagation();
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/project/delete/${id}/${currentUserId}`,
+        `https://scrum-master-backend.onrender.com/api/project/delete/${id}/${currentUserId}`,
         {
           method: "DELETE",
         }
@@ -176,7 +174,7 @@ export default function Projects() {
     try {
       // Fetch Product Owner
       const resPO = await fetch(
-        `${API_BASE_URL}/api/project/${project.id}/productOwner`
+        `https://scrum-master-backend.onrender.com/api/project/${project.id}/productOwner`
       );
       if (resPO.ok) {
         const po = await resPO.json();
@@ -185,7 +183,7 @@ export default function Projects() {
 
       // Fetch Scrum Master
       const resSM = await fetch(
-        `${API_BASE_URL}/api/project/${project.id}/scrumMaster`
+        `https://scrum-master-backend.onrender.com/api/project/${project.id}/scrumMaster`
       );
       if (resSM.ok) {
         const sm = await resSM.json();
@@ -194,7 +192,7 @@ export default function Projects() {
 
       // Fetch Team Members
       const resTM = await fetch(
-        `${API_BASE_URL}/api/project/${project.id}/teamMembers`
+        `https://scrum-master-backend.onrender.com/api/project/${project.id}/teamMembers`
       );
       if (resTM.ok) {
         const members = await resTM.json();
@@ -221,7 +219,7 @@ export default function Projects() {
     // Fetch current team members
     try {
       const res = await fetch(
-        `${API_BASE_URL}/api/project/${project.id}/teamMembers`
+        `https://scrum-master-backend.onrender.com/api/project/${project.id}/teamMembers`
       );
       if (res.ok) {
         const members = await res.json();
@@ -243,7 +241,7 @@ export default function Projects() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/project/${editedProject.id}/addMember/${selectedNewMember}/${currentUserId}`,
+        `https://scrum-master-backend.onrender.com/api/project/${editedProject.id}/addMember/${selectedNewMember}/${currentUserId}`,
         { method: "POST" }
       );
 
@@ -267,7 +265,7 @@ export default function Projects() {
   const handleRemoveTeamMember = async (memberId) => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/project/${editedProject.id}/removeMember/${memberId}/${currentUserId}`,
+        `https://scrum-master-backend.onrender.com/api/project/${editedProject.id}/removeMember/${memberId}/${currentUserId}`,
         { method: "DELETE" }
       );
 
@@ -284,7 +282,7 @@ export default function Projects() {
   const handleSaveChanges = async () => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/project/update/${editedProject.id}/${currentUserId}`,
+        `https://scrum-master-backend.onrender.com/api/project/update/${editedProject.id}/${currentUserId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
